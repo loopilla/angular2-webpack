@@ -1,3 +1,9 @@
+@import 'normalize';
+@import 'bourbon';
+@import 'neat';
+
+@include normalize();
+
 // styles applied on :host are applied on the current component, "app" in this case
 :host {
   display: block;
@@ -14,6 +20,7 @@ header {
 }
 
 main {
+  @include outer-container(80%);
   padding: 1em;
   font-family: Arial, Helvetica, sans-serif;
   text-align: center;

@@ -57,7 +57,7 @@ module.exports = function makeWebpackConfig() {
    */
   config.output = isTest ? {} : {
     path: root('dist'),
-    publicPath: isProd ? '/' : 'http://localhost:8080/',
+    publicPath: isProd ? '/' : 'http://localhost:9000/',
     filename: isProd ? 'js/[name].[hash].js' : 'js/[name].js',
     chunkFilename: isProd ? '[id].[hash].chunk.js' : '[id].chunk.js'
   };
@@ -189,6 +189,11 @@ module.exports = function makeWebpackConfig() {
          */
         sassLoader: {
           //includePaths: [path.resolve(__dirname, "node_modules/foundation-sites/scss")]
+          includePaths: [
+            require('bourbon').includePaths,
+            require('bourbon-neat').includePaths,
+            path.resolve(__dirname, "node_modules/normalize-scss/sass")
+            ]
         },
         /**
          * PostCSS
