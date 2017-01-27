@@ -1,4 +1,5 @@
-import { Component, AfterViewInit, EventEmitter, Output, HostListener } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, HostListener, ElementRef, Renderer } from '@angular/core';
+// import { StyledDirective } from './styled.directive';
 
 @Component({
     selector: 'parralax-hero',
@@ -6,6 +7,11 @@ import { Component, AfterViewInit, EventEmitter, Output, HostListener } from '@a
     styleUrls: ['./parallax.component.scss']
 })
 export class ParallaxComponent implements AfterViewInit {
+    @ViewChild('parallaxImage') pImage: ElementRef;
+    @ViewChild('parallaxWindow') pWindow: ElementRef;
+ 
+    constructor(private renderer: Renderer) {}
+
     @HostListener('window:scroll', ['$event'])
         scroll(event) {
             console.log('Call from child');
@@ -14,28 +20,33 @@ export class ParallaxComponent implements AfterViewInit {
 
     ngAfterViewInit () {
         console.log('ngAfterViewInit()'); // document ready
-        if( document.querySelector("#js-parallax-window") ) {
+        if ( document.querySelector('#js-parallax-window') ) {
             this.parallax();
-        }        
-    }    
+        }
+    }
 
     parallax() {
-        if( document.querySelector("#js-parallax-window") ) {
+        if ( this.pWindow.nativeElement ) {
             console.log('Todo parallax()');
-            // var plxBackground = document.querySelector("#js-parallax-background");
-            // var plxWindow = document.querySelector("#js-parallax-window");
 
-            // var plxWindowTopToPageTop = plxWindow.clientTop;
-            // var windowTopToPageTop = window.scroll().top;
-            // var plxWindowTopToWindowTop = plxWindowTopToPageTop - windowTopToPageTop;
+            let rect = this.pWindow.nativeElement.getBoundingClientRect();
 
-            // var plxBackgroundTopToPageTop = plxBackground.clientTop;
-            // var windowInnerHeight = window.innerHeight;
-            // var plxBackgroundTopToWindowTop = plxBackgroundTopToPageTop - windowTopToPageTop;
-            // var plxBackgroundTopToWindowBottom = windowInnerHeight - plxBackgroundTopToWindowTop;
-            // var plxSpeed = 0.35;
+            let plxWindowTopToPageTop = rect.top + document.body.scrollTop;
 
-            // plxBackground. style.top = ('top', - (plxWindowTopToWindowTop * plxSpeed) + 'px');
+            let windowTopToPageTop = window.scrollY;
+
+            let plxWindowTopToWindowTop = plxWindowTopToPageTop - windowTopToPageTop;
+
+            let plxBackgroundTopToPageTop = this.pImage.nativeElement.clientTop;
+
+            let windowInnerHeight = window.innerHeight;
+            let plxBackgroundTopToWindowTop = plxBackgroundTopToPageTop - windowTopToPageTop;
+            let plxBackgroundTopToWindowBottom = windowInnerHeight - plxBackgroundTopToWindowTop;
+
+            let plxSpeed = 0.35;
+            let top = - (plxWindowTopToWindowTop * plxSpeed) + 'px';
+
+            this.renderer.setElementStyle(this.pImage.nativeElement, 'top', top);
         }
     }
 
