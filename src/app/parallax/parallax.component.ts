@@ -14,7 +14,7 @@ export class ParallaxComponent implements AfterViewInit {
 
     @HostListener('window:scroll', ['$event'])
         scroll(event) {
-            console.log('Call from child');
+            //console.log('Call from child');
             this.parallax();
         };
 
@@ -29,21 +29,23 @@ export class ParallaxComponent implements AfterViewInit {
         if ( this.pWindow.nativeElement ) {
             console.log('Todo parallax()');
 
-            let rect = this.pWindow.nativeElement.getBoundingClientRect();
+            let wRect = this.pWindow.nativeElement.getBoundingClientRect();
 
-            let plxWindowTopToPageTop = rect.top + document.body.scrollTop;
+            let plxWindowTopToPageTop = wRect.top + document.body.scrollTop;
 
             let windowTopToPageTop = window.scrollY;
 
             let plxWindowTopToWindowTop = plxWindowTopToPageTop - windowTopToPageTop;
 
-            let plxBackgroundTopToPageTop = this.pImage.nativeElement.clientTop;
+            let bRect = this.pImage.nativeElement.getBoundingClientRect();
+
+            let plxBackgroundTopToPageTop = bRect.top;
 
             let windowInnerHeight = window.innerHeight;
             let plxBackgroundTopToWindowTop = plxBackgroundTopToPageTop - windowTopToPageTop;
             let plxBackgroundTopToWindowBottom = windowInnerHeight - plxBackgroundTopToWindowTop;
 
-            let plxSpeed = 0.35;
+            let plxSpeed = 0.15;
             let top = - (plxWindowTopToWindowTop * plxSpeed) + 'px';
 
             this.renderer.setElementStyle(this.pImage.nativeElement, 'top', top);
