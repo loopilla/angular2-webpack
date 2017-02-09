@@ -9,12 +9,12 @@ import { Component, AfterViewInit, ViewChild, HostListener, ElementRef, Renderer
 export class ParallaxComponent implements AfterViewInit {
     @ViewChild('parallaxImage') pImage: ElementRef;
     @ViewChild('parallaxWindow') pWindow: ElementRef;
- 
+
     constructor(private renderer: Renderer) {}
 
     @HostListener('window:scroll', ['$event'])
         scroll(event) {
-            //console.log('Call from child');
+            // console.log('Call from child');
             this.parallax();
         };
 
@@ -43,7 +43,7 @@ export class ParallaxComponent implements AfterViewInit {
 
             let windowInnerHeight = window.innerHeight;
             let plxBackgroundTopToWindowTop = plxBackgroundTopToPageTop - windowTopToPageTop;
-            let plxBackgroundTopToWindowBottom = windowInnerHeight - plxBackgroundTopToWindowTop;
+            // let plxBackgroundTopToWindowBottom = windowInnerHeight - plxBackgroundTopToWindowTop;
 
             let plxSpeed = 0.15;
             let top = - (plxWindowTopToWindowTop * plxSpeed) + 'px';
